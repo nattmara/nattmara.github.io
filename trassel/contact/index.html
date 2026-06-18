@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Trassel Support</title>
+  <style>
+    body {
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      max-width: 650px;
+      padding: 8px;
+      background: #FAFAFA;
+      color: #0A0A0B;
+    }
+
+    h1 {
+      margin-bottom: 25px;
+    }
+
+    h3 {
+      margin: 0;
+    }
+
+    section {
+      text-align: right;
+    }
+
+    .invalid-label {
+      display: block;
+      font-style: italic;
+      font-weight: 500;
+      color: rgba(245, 10, 11, 0.5);
+      margin: 0 15px 2.5px 0;
+      opacity: 0;
+    }
+
+    .invalid .invalid-label {
+      opacity: 1;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 12.5px 17.5px 13.5px;
+      font-size: inherit;
+      font-family: inherit;
+      margin-bottom: 5px;
+      resize: none;
+      border-radius: 18.5px;
+      border: none;
+      background-color: #EBEBED;
+      display: block;
+    }
+
+    .error {
+      background-color: rgba(245, 225, 227, 1);
+      color: rgba(255, 0, 0, 1)
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      font-style: italic;
+      font-weight: 500;
+      color: rgba(10, 10, 11, 0.5);
+    }
+
+    .error::placeholder {
+      color: rgba(245, 10, 11, 0.5);
+    }
+
+    button {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 15px 20px 17px;
+      font-size: inherit;
+      font-family: inherit;
+      font-weight: 500;
+      margin-bottom: 32px;
+      resize: none;
+      border-radius: 21px;
+      border: none;
+      background-color: #323236;
+      color: #FAFAFA;
+      transition: all 0.2s ease-out;
+    }
+
+    button:active {
+      transition: all 0.1s ease-in;
+      padding: 12px 17px 14px;
+      width: calc(100% - 6px);
+      margin: 3px;
+      border-radius: 18px;
+    }
+
+    @media (min-width: 768px) {
+      body {
+        padding: 24px;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      body {
+        padding: 48px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>Contact Trassel Support</h1>
+
+  <section>
+    <label class="invalid-label">invalid</label>
+    <input type="email" id="email" name="email" placeholder="email" required>
+  </section>
+  <input type="text" id="subject" name="subject" placeholder="subject" required>
+  <textarea id="message" name="message" placeholder="message" rows="6" required></textarea>
+  <button type="submit" id="send" class="fcf-btn fcf-btn-primary fcf-btn-lg fcf-btn-block">send</button>
+
+  <script>
+    const email = document.getElementById('email');
+    const subject = document.getElementById('subject');
+    const message = document.getElementById('message');
+    const send = document.getElementById('send');
+
+    function updateSend() {
+      const allFilled = email.value && subject.value && message.value;
+      send.style.color = allFilled ? 'rgba(250,250,250,1)' : 'rgba(250,250,250,0.5)';
+    }
+    [email, subject, message].forEach(field => {
+      field.addEventListener('input', () => {
+        field.classList.remove('error');
+        field.closest('section').classList.remove('invalid');
+        updateSend()
+      });
+    });
+    updateSend();
+    send.addEventListener('click', () => {
+      const fields = [email, subject, message];
+      const emptyFields = fields.filter(f => !f.value);
+      const emailValid = email.value ? /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value) : true;
+      fields.forEach(f => {
+        f.classList.toggle('error', !f.value);
+      });
+      if (!emailValid) {
+        email.classList.toggle('error')
+        email.closest('section').classList.toggle('invalid')
+      }
+      if (emptyFields.length > 0 || !emailValid) return;
+      window.location.href = `mailto:developer@nattmara.com?subject=${encodeURIComponent(subject.value)}&body=${encodeURIComponent(message.value)}%0A%0AFrom: ${encodeURIComponent(email.value)}`;
+    });
+  </script>
+</body>
+
+</html>
