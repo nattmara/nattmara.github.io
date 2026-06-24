@@ -97,28 +97,28 @@
   
   <input type="text" id="subject" name="subject" placeholder="subject" required>
   <textarea id="message" name="message" placeholder="message" rows="10" required></textarea>
-  <button type="submit" id="send">open mail</button>
+  <button type="submit" id="open">open mail</button>
 
   <script>
     const subject = document.getElementById('subject');
     const message = document.getElementById('message');
-    const send = document.getElementById('send');
+    const open = document.getElementById('open');
 
-    function updateSend() {
+    function updateOpen() {
       const allFilled = subject.value && message.value;
-      send.style.color = allFilled ? 'rgba(250,250,250,1)' : 'rgba(250,250,250,0.5)';
+      open.style.color = allFilled ? 'rgba(250,250,250,1)' : 'rgba(250,250,250,0.5)';
     }
     
     [subject, message].forEach(field => {
       field.addEventListener('input', () => {
         field.classList.remove('error');
-        updateSend()
+        updateOpen()
       });
     });
     
-    updateSend();
+    updateOpen();
     
-    send.addEventListener('click', () => {
+    open.addEventListener('click', () => {
       const fields = [subject, message];
       const emptyFields = fields.filter(f => !f.value);
       
